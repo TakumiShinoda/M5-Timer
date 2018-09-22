@@ -23,23 +23,23 @@ void loop(){
     Time = 60;
     ClockState = false;
     Start = 0;
+    TempTime = 0;
   }
 
   if(M5.BtnB.wasPressed()){  
-    if(!ClockState){
+    if(!ClockState && TempTime == 0){
       Start = millis(); 
       ClockState = true;
     }
   }
 
   if(M5.BtnC.wasPressed()){
-    ClockState = !ClockState; 
-    if(ClockState){
-      if(Start != 0 && TempTime != 0){
-        Start = now;
-      }
-    }else{
+    if(!ClockState && Start != 0 && TempTime != 0){ 
+      Start = now;
+      ClockState = !ClockState; 
+    }else if(ClockState){
       TempTime = now - Start;
+      ClockState = !ClockState; 
     }
   }
 
